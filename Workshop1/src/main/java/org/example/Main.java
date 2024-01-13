@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Scanner;
 
@@ -44,7 +45,7 @@ public class Main {
             System.out.println("File not exist.");
             System.exit(0);
         }
-        String[][] tab = null;
+        String[][] tab = tasks;
         try {
             List<String> strings = Files.readAllLines(dir);
             tab = new String[strings.size()][strings.get(0).split(",").length];
@@ -63,17 +64,33 @@ public class Main {
 
     public static String[][] Dane(String File) {
 
+        Path path1 = Paths.get("/home/prezes14/Documents/Workshop1/Workshop1/tasks.csv");
+        System.out.println(Files.exists(path1));
         try (Scanner scanner = new Scanner(System.in)) {
             String task_name = scanner.nextLine();
             if (task_name.equals("add"))
                 System.out.println("Please add task description");
-            PrintWriter printWriter = new PrintWriter(FILE_NAME);
-        } catch (FileNotFoundException ex) {
+
+            String tab[][] = tasks;
+
+            for (int i = 0; i < tab.length; i++) {
+                String task_name2 = scanner.nextLine();
+                Files.writeString(path1, task_name2, StandardOpenOption.APPEND);
+                for (int j = 0; j < tab[i].length; j++) {
+                    System.out.println("Insert date:");
+                    String date_name = scanner.nextLine();
+                    Files.writeString(path1, date_name, StandardOpenOption.APPEND);
+                    System.out.println("Insert importance: (true/false)");
+                    String Importance = scanner.nextLine();
+                    Files.writeString(path1, Importance, StandardOpenOption.APPEND);
+                }
+            }
+            String task2 = scanner.nextLine();
+            Files.writeString(path1, task2, StandardOpenOption.APPEND);
+        } catch (IOException ex) {
             System.out.println("Brak mozliwosci zapisu do pliku");
-        } return tasks;
+        }
+        return tasks;
 //        if
 //        System.out.println("Add task due date");
-    }
-
-
-}
+    }}
